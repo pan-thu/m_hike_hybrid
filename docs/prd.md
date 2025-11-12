@@ -1,7 +1,4 @@
-# M-Hike Flutter App - Simple PRD
-
-## What We're Building
-A straightforward Flutter CRUD application for managing hiking records with local SQLite storage.
+# M-Hike Flutter App
 
 ## Features
 1. **Create Hike** - Add new hike with form validation
