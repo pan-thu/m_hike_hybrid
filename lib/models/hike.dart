@@ -7,6 +7,7 @@ class Hike {
   String difficulty;
   bool parkingAvailable;
   String? description;
+  int? groupSize;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -19,6 +20,7 @@ class Hike {
     required this.difficulty,
     required this.parkingAvailable,
     this.description,
+    this.groupSize,
     this.createdAt,
     this.updatedAt,
   });
@@ -34,6 +36,7 @@ class Hike {
       'difficulty': difficulty,
       'parkingAvailable': parkingAvailable ? 1 : 0,
       'description': description,
+      'groupSize': groupSize,
       'createdAt': createdAt?.millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       'updatedAt': updatedAt?.millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
     };
@@ -49,6 +52,7 @@ class Hike {
       difficulty: map['difficulty'],
       parkingAvailable: map['parkingAvailable'] == 1,
       description: map['description'],
+      groupSize: map['groupSize'],
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']),
     );

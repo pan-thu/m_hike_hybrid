@@ -19,6 +19,7 @@ class _HikeFormScreenState extends State<HikeFormScreen> {
   late TextEditingController _locationController;
   late TextEditingController _lengthController;
   late TextEditingController _descriptionController;
+  late TextEditingController _groupSizeController;
   late DateTime _selectedDate;
   String _selectedDifficulty = 'easy';
   bool _parkingAvailable = false;
@@ -30,6 +31,7 @@ class _HikeFormScreenState extends State<HikeFormScreen> {
     _locationController = TextEditingController(text: widget.hike?.location ?? '');
     _lengthController = TextEditingController(text: widget.hike?.length.toString() ?? '');
     _descriptionController = TextEditingController(text: widget.hike?.description ?? '');
+    _groupSizeController = TextEditingController(text: widget.hike?.groupSize?.toString() ?? '');
     _selectedDate = widget.hike?.date ?? DateTime.now();
     _selectedDifficulty = widget.hike?.difficulty ?? 'easy';
     _parkingAvailable = widget.hike?.parkingAvailable ?? false;
@@ -158,6 +160,27 @@ class _HikeFormScreenState extends State<HikeFormScreen> {
               ),
               SizedBox(height: 16),
               TextFormField(
+                controller: _groupSizeController,
+                decoration: InputDecoration(
+                  labelText: 'Group Size',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value != null && value.isNotEmpty) {
+                    final groupSize = int.tryParse(value);
+                    if (groupSize == null) {
+                      return 'Please enter a valid number';
+                    }
+                    if (groupSize < 1 || groupSize > 100) {
+                      return 'Group size must be between 1 and 100';
+                    }
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
                   labelText: 'Description',
@@ -217,6 +240,7 @@ class _HikeFormScreenState extends State<HikeFormScreen> {
         difficulty: _selectedDifficulty,
         parkingAvailable: _parkingAvailable,
         description: _descriptionController.text.isEmpty ? null : _descriptionController.text,
+        groupSize: _groupSizeController.text.isEmpty ? null : int.parse(_groupSizeController.text),
         createdAt: widget.hike?.createdAt,
         updatedAt: DateTime.now(),
       );
@@ -242,6 +266,7 @@ class _HikeFormScreenState extends State<HikeFormScreen> {
     _locationController.dispose();
     _lengthController.dispose();
     _descriptionController.dispose();
+    _groupSizeController.dispose();
     super.dispose();
   }
 }

@@ -20,8 +20,9 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _createDB,
+      onUpgrade: _upgradeDB,
     );
   }
 
@@ -36,10 +37,17 @@ class DatabaseHelper {
         difficulty TEXT NOT NULL,
         parkingAvailable INTEGER NOT NULL,
         description TEXT,
+        groupSize INTEGER,
         createdAt INTEGER NOT NULL,
         updatedAt INTEGER NOT NULL
       )
     ''');
+  }
+
+  Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE hikes ADD COLUMN groupSize INTEGER');
+    }
   }
 
   // CRUD Operations
